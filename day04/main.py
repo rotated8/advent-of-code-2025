@@ -40,28 +40,41 @@ class Matrix:
             return 0
         return 1
 
-    def find_with_fewer_neighbors(self, cutoff):
+    def remove_with_fewer_neighbors(self, cutoff):
         total = 0
-        for row in self.matrix:
-            for cell in row:
-                if cell < cutoff:
+        for v in range(len(self.matrix)):
+            for h in range(len(self.matrix[v])):
+                if self.matrix[v][h] < cutoff:
+                    self.matrix[v][h] = 9
                     total += 1
 
         return total
 
     def debug(self):
-        # Print X's for rolls you can get, and dots for filler.
         for row in self.matrix:
             dr = []
             for cell in row:
                 if cell < 4:
                     dr.append('X')
+                elif 4 <= cell < 9:
+                    dr.append("@")
                 else:
                     dr.append('.')
-            print(dr)
+            # Print like the examples.
+            print(''.join(dr))
 
 if __name__ == "__main__":
+    total_removed = 0
     m = Matrix()
     m.sum_adjacents()
     #m.debug()
-    print(m.find_with_fewer_neighbors(4))
+    removals = m.remove_with_fewer_neighbors(4)
+    total_removed += removals
+
+    while removals != 0:
+        m.sum_adjacents()
+        #m.debug()
+        removals = m.remove_with_fewer_neighbors(4)
+        total_removed += removals
+
+    print(total_removed)
