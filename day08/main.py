@@ -24,7 +24,7 @@ def main():
 
             boxes.append(new_box)
 
-    circuits = []
+    circuits = [{i} for i in range(len(boxes))]
     for _ in range(1000):
         # Get the connection, discard the distance.
         conn = heapq.heappop(heap)[-1]
@@ -43,6 +43,24 @@ def main():
     circuit_lengths = [len(circ) for circ in circuits]
     circuit_lengths.sort(reverse=True)
     print(prod(circuit_lengths[:3]))
+
+    last_conn = None
+    while len(circuits) > 1:
+        conn = heapq.heappop(heap)[-1]
+        last_conn = conn.copy()
+
+        cleanup = []
+        for idx, circuit in enumerate(circuits):
+            if len(conn & circuit) > 0:
+                conn |= circuit
+                cleanup.append(idx)
+
+        circuits.append(conn)
+
+        for idx in sorted(cleanup, reverse=True):
+            circuits.pop(idx)
+
+    print(prod([boxes[i].x for i in last_conn]))
 
 if __name__ == "__main__":
     main()
