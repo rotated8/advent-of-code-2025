@@ -11,58 +11,60 @@ class Box:
         return sqrt((self.x - other.x) ** 2 + (self.y - other.y) ** 2 + (self.z - other.z) ** 2)
 
 
+def add_connection(connections, circuits):
+    # Get the connection, discard the distance, keep the box indices
+    box_indices = heapq.heappop(connections)[-1]
+    new_indices = box_indices.copy()
+
+    # If the new connection overlaps circuits, add their indices to the new one, and note which circuits to clean up
+    cleanup = []
+    for idx, circuit in enumerate(circuits):
+        if len(box_indices & circuit) > 0:
+            box_indices |= circuit
+            cleanup.append(idx)
+
+    # Add the new (any maybe updated) indices to the list of circuits
+    circuits.append(box_indices)
+
+    # Remove, in descending index order, the old overlapping circuits
+    for idx in sorted(cleanup, reverse=True):
+        circuits.pop(idx)
+
+    # Return the indices from the last connection added (as opposed to all the indices in that circuit)
+    return new_indices
+
+
 def main():
+    # All the boxes in the order they were created
     boxes = []
-    heap = []
+    # A heap of distances, and the indices of the boxes at that distance. The heap keeps the distances sorted
+    connections = []
 
     with open('input.txt') as txt:
         for line in txt:
             new_box = Box(line)
-            new_idx = len(boxes)
+            new_box_idx = len(boxes)
 
-            for idx, box in enumerate(boxes):
-                d = new_box.distance_to(box)
-                heapq.heappush(heap, (d, {new_idx, idx}))
+            for box_idx, box in enumerate(boxes):
+                distance = new_box.distance_to(box)
+                heapq.heappush(connections, (distance, {new_box_idx, box_idx}))
 
             boxes.append(new_box)
 
+    # Each box starts on its own circuit. A circuit is the set of indices of boxes on that circuit
     circuits = [{i} for i in range(len(boxes))]
     for _ in range(1000):
-        # Get the connection, discard the distance.
-        conn = heapq.heappop(heap)[-1]
-
-        cleanup = []
-        for idx, circuit in enumerate(circuits):
-            if len(conn & circuit) > 0:
-                conn |= circuit
-                cleanup.append(idx)
-
-        circuits.append(conn)
-
-        for idx in sorted(cleanup, reverse=True):
-            circuits.pop(idx)
+        add_connection(connections, circuits)
 
     circuit_lengths = [len(circ) for circ in circuits]
     circuit_lengths.sort(reverse=True)
     print(prod(circuit_lengths[:3]))
 
-    last_conn = None
+    last_connection_indices = {}
     while len(circuits) > 1:
-        conn = heapq.heappop(heap)[-1]
-        last_conn = conn.copy()
+        last_connection_indices = add_connection(connections, circuits)
 
-        cleanup = []
-        for idx, circuit in enumerate(circuits):
-            if len(conn & circuit) > 0:
-                conn |= circuit
-                cleanup.append(idx)
-
-        circuits.append(conn)
-
-        for idx in sorted(cleanup, reverse=True):
-            circuits.pop(idx)
-
-    print(prod([boxes[i].x for i in last_conn]))
+    print(prod([boxes[idx].x for idx in last_connection_indices]))
 
 
 if __name__ == '__main__':
