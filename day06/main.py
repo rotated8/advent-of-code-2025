@@ -1,5 +1,6 @@
 from math import prod
 
+
 def pt1():
     with open('input.txt') as txt:
         lines = []
@@ -23,6 +24,7 @@ def pt1():
 
     print(total)
 
+
 class Prob:
     __slots__ = ('op', 'nums')
 
@@ -37,6 +39,7 @@ class Prob:
             return sum(self.nums)
         elif self.op == '*':
             return prod(self.nums)
+
 
 def pt2():
     with open('input.txt') as txt:
@@ -55,7 +58,7 @@ def pt2():
         if len(''.join(line).strip()) == 0:
             total += problem.solve()
         # Always an operator at the end of the line for new problems.
-        elif line[-1] == "*" or line[-1] == "+":
+        elif line[-1] == '*' or line[-1] == '+':
             op = line[-1]
             num = int(''.join(line[:-1]).strip())
             problem = Prob(op, num)
@@ -66,5 +69,6 @@ def pt2():
 
     print(total)
 
-if __name__ == "__main__":
+
+if __name__ == '__main__':
     pt2()

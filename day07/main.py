@@ -4,14 +4,14 @@ def main():
 
     with open('input.txt') as txt:
         for line in txt:
-            if paths == None:
+            if paths is None:
                 # First line setup
                 paths = [0] * len(line)
                 paths[line.index('S')] = 1
 
-                #vis = line.strip()
-                #print(vis)
-                #print(vis.replace('S', '1'))
+                # vis = line.strip()
+                # print(vis)
+                # print(vis.replace('S', '1'))
             elif line.find('^') == -1:
                 # Skip work on lines without splitters
                 continue
@@ -22,17 +22,18 @@ def main():
                     splits += 1
                     paths_to_here = paths[idx]
                     paths[idx] = 0
-                    paths[idx-1] += paths_to_here
-                    paths[idx+1] += paths_to_here
+                    paths[idx - 1] += paths_to_here
+                    paths[idx + 1] += paths_to_here
 
-                #vis = line.strip()
-                #for idx in {idx for idx, beam in enumerate(beams) if beam}:
+                # vis = line.strip()
+                # for idx in {idx for idx, beam in enumerate(beams) if beam}:
                 #    vis = vis[:idx] + '|' + vis[idx+1:]
-                #print(vis)
-                #print(vis.replace('^', '.'))
+                # print(vis)
+                # print(vis.replace('^', '.'))
 
     print('Splits:', splits)
     print('Paths:', sum(paths))
 
-if __name__ == "__main__":
+
+if __name__ == '__main__':
     main()

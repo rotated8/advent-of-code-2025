@@ -1,13 +1,15 @@
 from math import sqrt, prod
 import heapq
 
+
 class Box:
     def __init__(self, coords):
         x, y, z = coords.split(',', 3)
         self.x, self.y, self.z = int(x), int(y), int(z)
 
     def distance_to(self, other):
-        return sqrt((self.x - other.x)**2 + (self.y - other.y)**2 + (self.z - other.z)**2)
+        return sqrt((self.x - other.x) ** 2 + (self.y - other.y) ** 2 + (self.z - other.z) ** 2)
+
 
 def main():
     boxes = []
@@ -62,5 +64,6 @@ def main():
 
     print(prod([boxes[i].x for i in last_conn]))
 
-if __name__ == "__main__":
+
+if __name__ == '__main__':
     main()

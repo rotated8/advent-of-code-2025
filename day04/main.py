@@ -19,15 +19,15 @@ class Matrix:
                 if self.matrix[v][h] != 9:
                     neighbors = []
                     # Cardinals: N,S,E,W
-                    neighbors.append(self.get_val(v-1, h))
-                    neighbors.append(self.get_val(v+1, h))
-                    neighbors.append(self.get_val(v, h+1))
-                    neighbors.append(self.get_val(v, h-1))
+                    neighbors.append(self.get_val(v - 1, h))
+                    neighbors.append(self.get_val(v + 1, h))
+                    neighbors.append(self.get_val(v, h + 1))
+                    neighbors.append(self.get_val(v, h - 1))
                     # Diagonals: NE, NW, SE, SW
-                    neighbors.append(self.get_val(v-1, h+1))
-                    neighbors.append(self.get_val(v-1, h-1))
-                    neighbors.append(self.get_val(v+1, h+1))
-                    neighbors.append(self.get_val(v+1, h-1))
+                    neighbors.append(self.get_val(v - 1, h + 1))
+                    neighbors.append(self.get_val(v - 1, h - 1))
+                    neighbors.append(self.get_val(v + 1, h + 1))
+                    neighbors.append(self.get_val(v + 1, h - 1))
 
                     self.matrix[v][h] = sum(neighbors)
 
@@ -57,23 +57,24 @@ class Matrix:
                 if cell < 4:
                     dr.append('X')
                 elif 4 <= cell < 9:
-                    dr.append("@")
+                    dr.append('@')
                 else:
                     dr.append('.')
             # Print like the examples.
             print(''.join(dr))
 
-if __name__ == "__main__":
+
+if __name__ == '__main__':
     total_removed = 0
     m = Matrix()
     m.sum_adjacents()
-    #m.debug()
+    # m.debug()
     removals = m.remove_with_fewer_neighbors(4)
     total_removed += removals
 
     while removals != 0:
         m.sum_adjacents()
-        #m.debug()
+        # m.debug()
         removals = m.remove_with_fewer_neighbors(4)
         total_removed += removals
 

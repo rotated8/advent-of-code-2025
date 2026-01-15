@@ -9,6 +9,7 @@ def main():
 
     return machines
 
+
 def count_paths(machines, start='you', end='out'):
     if end in machines[start]:
         return 1
@@ -21,6 +22,7 @@ def count_paths(machines, start='you', end='out'):
                 total += count_paths(machines, next_machine, end)
         return total
 
+
 def list_paths(machines, path=[], start='svr', end='out'):
     path.append(start)
     path_idx = len(path)
@@ -30,7 +32,7 @@ def list_paths(machines, path=[], start='svr', end='out'):
             print('+++', path)
             return 1
         else:
-            #print('---', path)
+            # print('---', path)
             return 0
     elif 'out' in machines[start]:
         return 0
@@ -45,10 +47,11 @@ def list_paths(machines, path=[], start='svr', end='out'):
                 total += list_paths(machines, path, next_machine)
         return total
 
-if __name__ == "__main__":
+
+if __name__ == '__main__':
     machines = main()
     print(count_paths(machines))
-    #print(list_paths(machines))
-    #print(list_paths(machines, start='dac', end='fft')) # Cycles abound!
+    # print(list_paths(machines))
+    # print(list_paths(machines, start='dac', end='fft')) # Cycles abound!
 
     # 4934 - low. Number of paths from dac to out. There are 0 paths from dac to fft.

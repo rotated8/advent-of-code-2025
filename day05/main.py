@@ -1,14 +1,15 @@
 from functools import total_ordering
 
+
 @total_ordering
-class FreshRange():
+class FreshRange:
     def __init__(self, freshrange):
-        lower, _ , higher = freshrange.partition('-')
+        lower, _, higher = freshrange.partition('-')
         self.low = int(lower)
         self.high = int(higher)
 
     def __repr__(self):
-        return f"{self.low}-{self.high}"
+        return f'{self.low}-{self.high}'
 
     def __eq__(self, other):
         return self.low == other.low and self.high == other.high
@@ -21,6 +22,7 @@ class FreshRange():
 
     def length(self):
         return self.high - self.low + 1
+
 
 def main():
     # Setup ranges and ids.
@@ -60,5 +62,6 @@ def main():
 
     print(sum([r.length() for r in flattened]))
 
-if __name__ == "__main__":
+
+if __name__ == '__main__':
     main()

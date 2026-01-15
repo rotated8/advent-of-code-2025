@@ -4,11 +4,12 @@ def main():
         for line in txt:
             ranges = line.split(',')
             for r in ranges:
-                #invalids = process_range(r)
+                # invalids = process_range(r)
                 invalids = process_relaxed_range(r)
                 total += sum(invalids)
 
     print(total)
+
 
 def process_range(id_range):
     invalids = []
@@ -21,8 +22,9 @@ def process_range(id_range):
             if str_i[:mid] == str_i[mid:]:
                 invalids.append(i)
 
-    #print(id_range, invalids)
+    # print(id_range, invalids)
     return invalids
+
 
 def process_relaxed_range(id_range):
     invalids = []
@@ -39,14 +41,15 @@ def process_relaxed_range(id_range):
 
         substrings = []
         for f in factors:
-            substrings.append(str_i[:f]*(len_i // f))
-        #print(i, factors, substrings)
+            substrings.append(str_i[:f] * (len_i // f))
+        # print(i, factors, substrings)
 
         if str_i in substrings and len_i > 1:
             invalids.append(i)
 
-    #print(id_range, invalids)
+    # print(id_range, invalids)
     return invalids
+
 
 if __name__ == '__main__':
     main()
