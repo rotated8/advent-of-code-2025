@@ -1,10 +1,10 @@
 def main():
     splits = 0
-    paths = None
+    paths = []
 
     with open('input.txt') as txt:
         for line in txt:
-            if paths is None:
+            if len(paths) == 0:
                 # First line setup
                 paths = [0] * len(line)
                 paths[line.index('S')] = 1
